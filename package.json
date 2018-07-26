@@ -1,0 +1,37 @@
+{
+  "name": "oas-client",
+  "version": "0.0.1",
+  "description": "Creates at runtime a fully functional api client based on an OpenAPI Specification. Providing automatic methods creation parameters definitions and validations.",
+  "main": "lib/oas-client.js",
+  "scripts": {
+    "test": "mocha ./test/main.test.js"
+  },
+  "author": {
+    "name": "Diego ZoracKy",
+    "email": "diego.zoracky@gmail.com",
+    "url": "https://github.com/DiegoZoracKy/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DiegoZoracKy/oas-client.git"
+  },
+  "keywords": [
+    "oas",
+    "OAS",
+    "OpenAPI",
+    "Open API",
+    "OpenAPI Specification",
+    "Open API Specification",
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "make-object-path": "^1.0.0"
+  },
+  "devDependencies": {
+    "ajv": "^6.5.2",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nock": "^9.4.3"
+  }
+}
