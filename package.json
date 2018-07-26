@@ -1,6 +1,6 @@
 {
   "name": "oas-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Creates at runtime a fully functional api client based on an OpenAPI Specification. Providing automatic methods creation parameters definitions and validations.",
   "main": "lib/oas-client.js",
   "scripts": {
