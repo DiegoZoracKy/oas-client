@@ -1,5 +1,8 @@
 # oas-client
 
+[![Build Status](https://api.travis-ci.org/DiegoZoracKy/oas-client.svg)](https://travis-ci.org/DiegoZoracKy/oas-client) [![npm](https://img.shields.io/npm/v/oas-client.svg)]() [![npm](https://img.shields.io/npm/l/oas-client.svg)]()
+
+
 Creates, at runtime, a fully functional api client based on an OpenAPI Specification v3. Providing automatic methods creation parameters definitions and validations. The goal is to provide consistency and a fast way to create and maintain api clients. It reduces the need of writing and preparing by hand all the necessary code to handle the communication with such servers.
 
  * Lightweight
