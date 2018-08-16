@@ -218,7 +218,7 @@ describe('Create an api client', function () {
             .then(({ data }) => assert.equal(data, 'Authorization=bearer token!!!;'));
     });
 
-    it('Must set a default parameter for a specific path operation', function () {
+    it('Must set a default parameter for a specific path operation during init', function () {
         const test = {
             input: {
                 apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
@@ -237,5 +237,26 @@ describe('Create an api client', function () {
         const apiClient = oasClient.create(test.input.apiSpec, test.input.config);
         return apiClient.login()
             .then(({ data }) => assert.equal(data, 'Authorization=path specific token;'));
+    });
+
+    it('Must set a default parameter for a specific path operation on the fly', function () {
+        const test = {
+            input: {
+                apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
+                config: {
+                    paths: {
+                        'GET /login': {
+                            defaultParameters: {
+                                cookie: { Authorization: 'path specific token on the fly' },
+                            }
+                        }
+                    }
+                }
+            },
+        };
+
+        const apiClient = oasClient.create(test.input.apiSpec, test.input.config);
+        return apiClient.login()
+            .then(({ data }) => assert.equal(data, 'Authorization=path specific token on the fly;'));
     });
 });
