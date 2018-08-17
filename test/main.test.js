@@ -4,6 +4,7 @@ const path = require('path');
 const assert = require('assert');
 const nock = require('nock');
 const oasClient = require('../');
+const YAML = require('yamljs');
 
 function generatePetsServerMock() {
     nock('http://127.0.0.1')
@@ -23,6 +24,29 @@ function generatePetsServerMock() {
 
 describe('Create an api client', function () {
     beforeEach(generatePetsServerMock);
+
+    it('Must contain all operations and operationIds loading the file from YML', function () {
+        const test = {
+            input: {
+                apiSpecYmlPath: path.join(__dirname, '/test-data/openapi-pets.yml'),
+            },
+            expected: [
+                'GET /login',
+                'GET /pets',
+                'GET /pets/{petId}',
+                'POST /pets',
+                'createPets',
+                'listPets',
+                'login',
+                'showPetById'
+            ]
+        };
+
+        const apiSpec = YAML.load(test.input.apiSpecYmlPath);
+        const apiClient = oasClient.create(apiSpec);
+        const sortedProperties = Object.keys(apiClient).sort();
+        assert.deepEqual(sortedProperties, test.expected);
+    });
 
     it('Must contain all operations and operationIds', function () {
         const test = {
