@@ -28,10 +28,12 @@
     "axios": "^0.15.3"
   },
   "devDependencies": {
-    "ajv": "^6.5.2",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "nock": "^9.4.3",
+    "nock": "^9.4.3"
+  },
+  "optionalDependencies": {
+    "ajv": "^6.5.3",
     "yamljs": "^0.3.0"
   }
 }
