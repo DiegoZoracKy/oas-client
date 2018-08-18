@@ -9,7 +9,16 @@
     },
     "servers": [
         {
-            "url": "http://127.0.0.1"
+            "url": "http://127.0.0.1/{version}",
+            "variables": {
+                "version": {
+                    "default": "v2",
+                    "enum": [
+                        "v1",
+                        "v2"
+                    ]
+                }
+            }
         }
     ],
     "paths": {

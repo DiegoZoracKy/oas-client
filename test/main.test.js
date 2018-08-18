@@ -7,7 +7,7 @@ const oasClient = require('../');
 const YAML = require('yamljs');
 
 function generatePetsServerMock() {
-    nock('http://127.0.0.1')
+    nock('http://127.0.0.1/v2')
         .get('/pets/007')
         .reply(200, "ok")
         .get('/pets?limit=1984')
@@ -68,6 +68,48 @@ describe('Create an api client', function () {
         const apiClient = oasClient.create(test.input.apiSpec);
         const sortedProperties = Object.keys(apiClient).sort();
         assert.deepEqual(sortedProperties, test.expected);
+    });
+
+    it('Must set a server variable', function () {
+        nock('http://127.0.0.1/v1')
+            .get('/pets/007')
+            .reply(200, "ok v1")
+
+        const test = {
+            input: {
+                apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
+            },
+        };
+
+        const options = {
+            serverVariables: {
+                version: "v1"
+            }
+        }
+        const apiClient = oasClient.create(test.input.apiSpec, options);
+        return apiClient.showPetById({ data: { petId: '007' } })
+            .then(({ data }) => assert.equal(data, "ok v1"));
+    });
+
+    it('Must use default server variable when defining a value not expected by the spec "enum"', function () {
+        nock('http://127.0.0.1/v2')
+            .get('/pets/007')
+            .reply(200, "ok forced to v2")
+
+        const test = {
+            input: {
+                apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
+            },
+        };
+
+        const options = {
+            serverVariables: {
+                version: "v3"
+            }
+        }
+        const apiClient = oasClient.create(test.input.apiSpec, options);
+        return apiClient.showPetById({ data: { petId: '007' } })
+            .catch(({ data }) => assert.equal(data, "ok forced to v2"));
     });
 
     it('Must pass a parameter via path using "data"', function () {
@@ -283,4 +325,39 @@ describe('Create an api client', function () {
         return apiClient.login()
             .then(({ data }) => assert.equal(data, 'Authorization=path specific token on the fly;'));
     });
+
+    // it('Must use default server variables', function () {
+    //     const test = {
+    //         input: {
+    //             apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
+    //             config: {
+    //                 paths: {
+    //                     'GET /login': {
+    //                         defaultParameters: {
+    //                             cookie: { Authorization: 'path specific token on the fly' },
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         },
+    //     };
+
+    //     const apiClient = oasClient.create(test.input.apiSpec, test.input.config);
+    //     return apiClient.login()
+    //         .then(({ data }) => assert.equal(data, 'Authorization=path specific token on the fly;'));
+    // });
+
+    // const options = {
+    //     serverVariables: {
+    //         basePath: 'v3'
+    //     }
+    // };
+    // const apiClient = oasClient.create(apiSpec, options);
+    
+    
+    // const data = { petId: 'Janis' };
+    
+    // apiClient.showPetById({ data }, options)
+    //     .then(console.log)
+    //     .catch(console.error);
 });
