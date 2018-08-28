@@ -88,20 +88,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "description": "Updated name of the pet",
-                                        "type": "string"
-                                    },
-                                    "status": {
-                                        "description": "Updated status of the pet",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "status"
-                                ]
+                                "$ref": "#/components/schemas/updatedPet"
                             }
                         }
                     }
@@ -168,6 +155,22 @@
     },
     "components": {
         "schemas": {
+            "updatedPet": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Updated name of the pet",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "Updated status of the pet",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
             "Pet": {
                 "required": [
                     "id",
