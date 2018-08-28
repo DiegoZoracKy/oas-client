@@ -203,6 +203,25 @@ describe('Create an api client', function () {
             .catch(err => assert.equal(err.statusCode, '404'));
     });
 
+    it('Must validate post body before performing a request and raise an "Unexpected Content-Type" error', function () {
+        const test = {
+            input: {
+                apiSpec: require(path.join(__dirname, '/test-data/openapi-pets.json')),
+                config: {
+                    validateBody: true
+                }
+            },
+        };
+
+        const apiClient = oasClient.create(test.input.apiSpec, test.input.config);
+        return apiClient.createPets({
+            body: {
+                name: "Janis",
+            }
+        }, {contentType: 'application/x-www-form-urlencoded'})
+            .catch(err => assert.equal(err, `Error: Invalid Body Schema: unexpected Content-Type 'application/x-www-form-urlencoded'`));
+    });
+
     it('Must validate post body before performing a request and raise an "Invalid Body Schema" error', function () {
         const test = {
             input: {
@@ -353,10 +372,10 @@ describe('Create an api client', function () {
     //     }
     // };
     // const apiClient = oasClient.create(apiSpec, options);
-    
-    
+
+
     // const data = { petId: 'Janis' };
-    
+
     // apiClient.showPetById({ data }, options)
     //     .then(console.log)
     //     .catch(console.error);
