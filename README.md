@@ -17,8 +17,10 @@ Creates, at runtime, a fully functional api client based on an OpenAPI Specifica
 ## Installation
 
 ```bash
-npm install oas-client
+npm install oas-client --no-optional
 ```
+
+**--no-optional** because **ajv** (to validate body schema) and **yamljs** (to read the spec from .yml format) are optional.
 
 ## Usage 
 
