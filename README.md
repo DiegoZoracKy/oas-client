@@ -96,3 +96,73 @@ githubClient.fetchRepository({data: {profile: 'DiegoZoracKy', repository: 'oas-c
 	.then(console.log)
 	.catch(console.error);
 ```
+
+## How it works
+
+All the **paths** and **operations** (http methods) presented on the specification becomes a method accessible by their **operationId** (when present) or by its **pathOperation** (e.g. **"GET /path"**) on the client object generated. When passing data for a method, the specification is what tells the client what to do with it. If it should be set as a querystring, as a path templating, etc.
+
+On the following example:
+
+```javascript
+githubClient.fetchProfile({data: {profile: 'DiegoZoracKy'}})
+```
+
+The request **GET https://github.com/DiegoZoracky** will be issued, as the specification tells that **fetchProfile** is the *operationId* related to the path **/{profile}** when being called via **GET**. Also it is defined that the parameter **profile** is present on the **path**. Finally enters the information contained at **servers**, which instructs to where the request should be made.
+
+The same operation can be called by its **pathOperation** (essential to when there is not an operationId defined):
+
+```javascript
+githubClient['GET /{profile}']({data: {profile: 'DiegoZoracKy'}})
+```
+
+
+
+## Options / Config
+
+The **create** method accepts a second parameter with a config object:
+
+```javascript
+oasClient.create(specification, options);
+```
+
+### Validate Body *(default: false)*
+
+In order to validate the post body following the schema defined at the property **requestBody**, set: 
+
+`validateBody: true`.
+
+Install de optionalDependency **ajv** to enable this feature.
+
+### Validate Parameters *(default: true)*
+
+By default the client will validate the parameters defined as required on the specification. When they are not passed in, an error will be returned and the request will not be performed. To turn off this validation set: 
+
+`validateParameters: false`.
+
+### Default Parameters
+
+Default parameters can be set at once to all requests to be made (useful to set Authorization tokens):
+
+```javascript
+{
+	defaultParameters: {
+		cookie: { Authorization: 'Token!' },
+	}
+}
+```
+
+or by specific paths. 
+
+```javascript
+{
+	paths: {
+		'GET /search': {
+			defaultParameters: {
+				query: { 
+					limit: '20' 
+				}
+			}
+		}
+	}
+}				
+```
