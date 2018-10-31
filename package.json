@@ -1,7 +1,7 @@
 {
   "name": "oas-client",
-  "version": "0.0.7",
-  "description": "Creates at runtime a fully functional api client based on an OpenAPI Specification. Providing automatic methods creation parameters definitions and validations.",
+  "version": "0.0.8",
+  "description": "OpenAPI client generator. Creates at runtime a fully functional api client based on an OpenAPI Specification. Providing automatic methods creation parameters definitions and validations.",
   "main": "lib/oas-client.js",
   "scripts": {
     "test": "mocha ./test/main.test.js"
@@ -18,6 +18,9 @@
   "keywords": [
     "oas",
     "OAS",
+    "client",
+    "generator",
+    "sdk",
     "OpenAPI",
     "Open API",
     "OpenAPI Specification",
